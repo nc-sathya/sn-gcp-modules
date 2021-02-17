@@ -1,29 +1,26 @@
-Sample API URL:
-http://localhost:8080/api/details/fullname?firstname=sathya&lastname=nagula
 
-http://130.211.54.193:80/api/details/fullname?firstname=sathya&lastname=nagula123
 
 <b>GKE Service Account</b>
-sn-gke-app@sn-gcp-100.iam.gserviceaccount.com
+gke-sa
 
 Docker commands:
 docker build -t k8s-learning .
 docker run -p 8080:8080 k8s-learning
 docker ps
 //to push images to container registry
-docker tag k8s-learning gcr.io/sn-gcp-100/k8s-learning
+docker tag k8s-learning gcr.io/<project name>/k8s-learning
 docker push
 
-gcloud auth activate-service-account sn-gke-app@sn-gcp-100.iam.gserviceaccount.com  --key-file=~/sn-gcp-1.json
+gcloud auth activate-service-account <gke sa>  --key-file=~/sn-gcp-1.json
 gcloud auth configure-docker
 
-gcloud projects get-iam-policy sn-gcp-100  \
+gcloud projects get-iam-policy <project name>  \
 --flatten="bindings[].members" \
 --format='table(bindings.role)' \
 --filter="bindings.members:service-1007751054795@containerregistry.iam.gserviceaccount.com"
 
-gcloud projects add-iam-policy-binding sn-gcp-100 \
---member=serviceAccount:service-sn-gcp-100@containerregistry.iam.gserviceaccount.com --role=roles/containerregistry.ServiceAgent
+gcloud projects add-iam-policy-binding <project name> \
+--member=serviceAccount:service-<projectname>@containerregistry.iam.gserviceaccount.com --role=roles/containerregistry.ServiceAgent
 
 Authenticate/Access Kubectl:
 gcloud container clusters get-credentials sn-cluster-1 --zone=europe-west1-b
