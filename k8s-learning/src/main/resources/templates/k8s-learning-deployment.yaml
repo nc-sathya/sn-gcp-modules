@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-k8s-deployment
+  labels:
+    app: k8s-learning
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: k8s-learning
+  template:
+    metadata:
+      labels:
+        app: k8s-learning
+    spec:
+      containers:
+      - name: k8s-learning
+        image: gcr.io/sn-gcp-100/k8s-learning:black
+        ports:
+        - containerPort: 8080
